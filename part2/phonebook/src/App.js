@@ -1,43 +1,61 @@
 import React, { useState } from "react";
+import PersonForm from "./components/PersonForm";
+import Filter from "./components/Filter";
+import NumbersList from "./components/NumbersList";
 
-const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
+const App = (props) => {
+  const [persons, setPersons] = useState(props.dummyData);
   const [newName, setNewName] = useState("new name");
+  const [number, setNumber] = useState("");
+  const [filter, setFilter] = useState("");
 
   const handleAddClick = (event) => {
     event.preventDefault();
 
     const person = {
       name: newName,
+      number: number,
     };
-
+    if (persons.find((p) => p.name.toLowerCase() === newName.toLowerCase())) {
+      alert(`${newName} is already added to phonebook`);
+      return;
+    }
     setPersons(persons.concat(person));
     setNewName("");
+    setNumber("");
   };
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
 
+  const handleNumberChange = (event) => {
+    setNumber(event.target.value);
+  };
+
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
+
+  const personsToShow =
+    filter === ""
+      ? persons
+      : persons.filter((p) =>
+          p.name.toLowerCase().includes(filter.toLowerCase())
+        );
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <form>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          <button type="submit" onClick={handleAddClick}>
-            add
-          </button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <div>
-        {persons.map((p) => (
-          <div key={p.name}>{p.name}</div>
-        ))}
-      </div>
+      <Filter value={filter} handleFilterChange={handleFilterChange} />
+      <PersonForm
+        newName={newName}
+        handleNameChange={handleNameChange}
+        number={number}
+        handleNumberChange={handleNumberChange}
+        handleAddClick={handleAddClick}
+      />
+      <NumbersList personsToShow={personsToShow} />
     </div>
   );
 };
