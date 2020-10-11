@@ -1,7 +1,7 @@
 import React from "react";
 import Country from "./Country";
 
-const Countries = ({ countriesToShow }) => {
+const Countries = ({ countriesToShow, onShowClick }) => {
   return (
     <div>
       {countriesToShow.length > 10 ? (
@@ -9,7 +9,14 @@ const Countries = ({ countriesToShow }) => {
       ) : countriesToShow.length === 1 ? (
         <Country country={countriesToShow[0]} />
       ) : (
-        countriesToShow.map((c) => <p key={c.alpha3Code}>{c.name}</p>)
+        countriesToShow.map((c) => {
+          return (
+            <div key={c.alpha3Code}>
+              {c.name}
+              <button onClick={() => onShowClick(c.name)}>show</button>
+            </div>
+          );
+        })
       )}
     </div>
   );

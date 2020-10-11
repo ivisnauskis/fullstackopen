@@ -1,10 +1,10 @@
 import React from "react";
 
-const Filter = ({ onChange }) => {
+const Filter = ({ onChange, value }) => {
   return (
     <div>
       find countries
-      <input onChange={onChange}></input>
+      <input value={value} onChange={onChange}></input>
     </div>
   );
 };

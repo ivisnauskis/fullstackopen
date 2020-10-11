@@ -23,10 +23,14 @@ const App = () => {
     setFilter(event.target.value);
   };
 
+  const onShowClick = (value) => {
+    setFilter(value);
+  };
+
   return (
     <div>
-      <Filter onChange={onFilterChange} />
-      <Countries countriesToShow={countriesToShow} />
+      <Filter onChange={onFilterChange} value={filter} />
+      <Countries countriesToShow={countriesToShow} onShowClick={onShowClick} />
     </div>
   );
 };
