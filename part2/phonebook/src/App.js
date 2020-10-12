@@ -21,8 +21,27 @@ const App = () => {
       name: newName,
       number: number,
     };
+
     if (persons.find((p) => p.name.toLowerCase() === newName.toLowerCase())) {
-      alert(`${newName} is already added to phonebook`);
+      const shouldUpdate = window.confirm(
+        `${person.name} is already added to phone book, replace the old number with a new one?`
+      );
+      if (shouldUpdate) {
+        const personToUpdate = persons.find(
+          (p) => p.name.toLowerCase() === newName.toLowerCase()
+        );
+
+        PhoneBookService.update(personToUpdate.id, {
+          ...personToUpdate,
+          number,
+        }).then((data) => {
+          setPersons(
+            persons.map((p) => (p.id === personToUpdate.id ? data : p))
+          );
+          setNewName("");
+          setNumber("");
+        });
+      }
       return;
     }
 
