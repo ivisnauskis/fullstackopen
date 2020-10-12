@@ -1,14 +1,17 @@
 import React from "react";
+import PersonRecord from "./PersonRecord";
 
-const NumbersList = ({ personsToShow }) => {
+const NumbersList = ({ personsToShow, handlePersonDelete }) => {
   return (
     <div>
       <h3>Numbers</h3>
       <div>
         {personsToShow.map((p) => (
-          <div key={p.name}>
-            {p.name} {p.number}
-          </div>
+          <PersonRecord
+            key={p.id}
+            person={p}
+            handlePersonDelete={handlePersonDelete}
+          />
         ))}
       </div>
     </div>

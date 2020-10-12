@@ -45,6 +45,15 @@ const App = () => {
     setFilter(event.target.value);
   };
 
+  const handlePersonDelete = (person) => {
+    const shouldDelete = window.confirm(`Delete ${person.name}?`);
+
+    if (shouldDelete) {
+      PhoneBookService.remove(person.id);
+      setPersons(persons.filter((p) => p.id !== person.id));
+    }
+  };
+
   const personsToShow =
     filter === ""
       ? persons
@@ -63,7 +72,10 @@ const App = () => {
         handleNumberChange={handleNumberChange}
         handleAddClick={handleAddClick}
       />
-      <NumbersList personsToShow={personsToShow} />
+      <NumbersList
+        personsToShow={personsToShow}
+        handlePersonDelete={handlePersonDelete}
+      />
     </div>
   );
 };
