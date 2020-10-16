@@ -14,6 +14,7 @@ const App = () => {
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
+    console.log("GETTING");
     PhoneBookService.getAll().then((data) => setPersons(data));
   }, []);
 
@@ -68,8 +69,10 @@ const App = () => {
               persons.map((p) => (p.id === existingPerson.id ? data : p))
             );
             createNotification(true, `${data.name} number has been updated.`);
+            clearInputForm();
           })
           .catch((error) => {
+            console.log(error);
             setPersons(persons.filter((p) => p.id !== existingPerson.id));
             createNotification(
               false,
@@ -78,13 +81,18 @@ const App = () => {
           });
       }
     } else {
-      PhoneBookService.create(person).then((data) => {
-        setPersons(persons.concat(data));
-        createNotification(true, `${data.name} has been added!`);
-      });
+      PhoneBookService.create(person)
+        .then((data) => {
+          setPersons(persons.concat(data));
+          createNotification(true, `${data.name} has been added!`);
+          clearInputForm();
+        })
+        .catch((error) => {
+          const errorMessage = error.response.data.error;
+          console.log(errorMessage);
+          createNotification(false, errorMessage);
+        });
     }
-
-    clearInputForm();
   };
 
   const handlePersonDelete = (person) => {
@@ -94,7 +102,9 @@ const App = () => {
       PhoneBookService.remove(person.id).catch((error) =>
         console.log("already deleted from server.")
       );
+      console.log("before delete filter", persons);
       setPersons(persons.filter((p) => p.id !== person.id));
+      console.log("after delete filter", persons);
       createNotification(true, `${person.name} has been deleted!`);
     }
   };
@@ -105,7 +115,7 @@ const App = () => {
       : persons.filter((p) =>
           p.name.toLowerCase().includes(filter.toLowerCase())
         );
-
+  console.log("persons to show in app", personsToShow);
   return (
     <div>
       <h2>Phonebook</h2>
