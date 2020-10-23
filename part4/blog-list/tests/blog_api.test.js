@@ -6,6 +6,8 @@ const app = require("../app");
 const blogsRouter = require("../controllers/blogs");
 const api = supertest(app);
 const Blog = require("../models/blog");
+const User = require("../models/user");
+const { usersInDb } = require("./test_helper");
 const helper = require("./test_helper");
 
 beforeEach(async () => {
@@ -42,6 +44,10 @@ describe("With inital blogs", () => {
 
 describe("Adding a blog", () => {
   test("a valid blog can be added", async () => {
+    const auth = await api
+      .post("/api/login")
+      .send({ username: "testuser", password: "testpassword" });
+
     const newBlog = {
       title: "test blog",
       author: "john doe",
@@ -51,6 +57,7 @@ describe("Adding a blog", () => {
 
     await api
       .post("/api/blogs")
+      .set("Authorization", `bearer ${auth.body.token}`)
       .send(newBlog)
       .expect(200)
       .expect("Content-Type", /application\/json/);
@@ -62,30 +69,52 @@ describe("Adding a blog", () => {
   });
 
   test("blog without likes will default to 0", async () => {
+    const auth = await api
+      .post("/api/login")
+      .send({ username: "testuser", password: "testpassword" });
+
     const newBlog = {
       title: "test blog",
       author: "john doe",
       url: "http://test.blog",
     };
 
-    const response = await api.post("/api/blogs").send(newBlog);
+    const response = await api
+      .post("/api/blogs")
+      .set("Authorization", `bearer ${auth.body.token}`)
+      .send(newBlog);
 
     expect(response.body).toHaveProperty("likes", 0);
   });
 
   test("blog without title and url gets 400 status code", async () => {
+    const auth = await api
+      .post("/api/login")
+      .send({ username: "testuser", password: "testpassword" });
+
     const newBlog = {
       author: "john doe",
       likes: 123,
     };
 
-    await api.post("/api/blogs").send(newBlog).expect(400);
+    await api
+      .post("/api/blogs")
+      .set("Authorization", `bearer ${auth.body.token}`)
+      .send(newBlog)
+      .expect(400);
   });
 
   test("invalid blog cannot be added", async () => {
+    const auth = await api
+      .post("/api/login")
+      .send({ username: "testuser", password: "testpassword" });
     const newBlog = {};
 
-    await api.post("/api/blogs").send(newBlog).expect(400);
+    await api
+      .post("/api/blogs")
+      .set("Authorization", `bearer ${auth.body.token}`)
+      .send(newBlog)
+      .expect(400);
 
     const blogsAtEnd = await helper.blogsInDb();
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
