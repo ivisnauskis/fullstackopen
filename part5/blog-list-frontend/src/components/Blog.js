@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 const Blog = ({ blog, handleLike, handleDelete }) => {
   const [isExpandedView, setIsExpandedView] = useState(false);
@@ -24,6 +25,12 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
       </div>
     </div>
   );
+};
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  handleLike: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 
 export default Blog;
