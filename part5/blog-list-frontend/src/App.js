@@ -35,7 +35,27 @@ const App = () => {
     };
 
     var updatedBlog = await blogService.update(blogToUpdate, blogToUpdate.id);
-    setBlogs(blogs.map((b) => (b.id === updatedBlog.id ? updatedBlog : b)));
+    setBlogs(
+      blogs
+        .map((b) => (b.id === updatedBlog.id ? updatedBlog : b))
+        .sort((a, b) => b.likes - a.likes)
+    );
+  };
+
+  const handleDelete = async (id) => {
+    var blog = blogs.find((b) => b.id === id);
+    const toDelete = window.confirm(
+      `Are you sure you want to delete blog "${blog.title}" by ${blog.author}`
+    );
+    if (toDelete) {
+      try {
+        await blogService.remove(id);
+        setBlogs(blogs.filter((b) => b.id !== id));
+        createNotification(true, `"${blog.title}" has been deleted`);
+      } catch (error) {
+        createNotification(false, error.response.data.error);
+      }
+    }
   };
 
   const handleLogout = () => {
@@ -59,7 +79,7 @@ const App = () => {
 
   const loadBlogs = async () => {
     const blogs = await blogService.getAll();
-    setBlogs(blogs);
+    setBlogs(blogs.sort((a, b) => b.likes - a.likes));
   };
 
   const createBlog = async (blogToAdd) => {
@@ -98,7 +118,11 @@ const App = () => {
           <Togglable buttonLabel="add blog" ref={blogFormRef}>
             <BlogForm createBlog={createBlog} />
           </Togglable>
-          <BlogList handleLike={handleLike} blogs={blogs} />
+          <BlogList
+            handleLike={handleLike}
+            handleDelete={handleDelete}
+            blogs={blogs}
+          />
         </div>
       ) : (
         <LoginForm handleLogin={handleLogin} />

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, handleDelete }) => {
   const [isExpandedView, setIsExpandedView] = useState(false);
 
   return (
@@ -18,6 +18,7 @@ const Blog = ({ blog, handleLike }) => {
               Likes: {blog.likes}
               <button onClick={() => handleLike(blog.id)}>like</button>
             </div>
+            <button onClick={() => handleDelete(blog.id)}>Delete</button>
           </div>
         )}
       </div>
