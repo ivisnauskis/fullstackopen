@@ -24,6 +24,5 @@ const create = async (newBlog) => {
 export default {
   getAll,
   create,
-  // update,
   setToken,
 };

@@ -11,28 +11,15 @@ import "./index.css";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [newAuthor, setNewAuthor] = useState("");
-  const [newTitle, setNewTitle] = useState("");
-  const [newUrl, setNewUrl] = useState("");
   const [notification, setNotification] = useState(null);
   const [isSuccess, setIsSuccess] = useState(true);
   const blogFormRef = useRef();
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    console.log("logging in with", username, password);
-
+  const handleLogin = async (username, password) => {
     try {
-      const user = await loginService.login({
-        username,
-        password,
-      });
+      const user = await loginService.login({ username, password });
       setUser(user);
-      setUsername("");
-      setPassword("");
       blogService.setToken(user.token);
       window.localStorage.setItem("loggedInBlogAppUser", JSON.stringify(user));
     } catch (exception) {
@@ -65,22 +52,10 @@ const App = () => {
     blogs.forEach((b) => console.log(b.user.id));
   };
 
-  const handleCreateBlog = async (event) => {
-    event.preventDefault();
-
-    const blogToAdd = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl,
-    };
-
+  const createBlog = async (blogToAdd) => {
     try {
       const response = await BlogService.create(blogToAdd);
       setBlogs(blogs.concat(response));
-      setNewAuthor("");
-      setNewTitle("");
-      setNewUrl("");
-
       blogFormRef.current.toggleVisibility();
       createNotification(
         true,
@@ -111,26 +86,12 @@ const App = () => {
             <button onClick={handleLogout}>Logout</button>
           </div>
           <Togglable buttonLabel="add blog" ref={blogFormRef}>
-            <BlogForm
-              newAuthor={newAuthor}
-              newTitle={newTitle}
-              newUrl={newUrl}
-              setNewAuthor={setNewAuthor}
-              setNewTitle={setNewTitle}
-              setNewUrl={setNewUrl}
-              onSubmit={handleCreateBlog}
-            />
+            <BlogForm createBlog={createBlog} />
           </Togglable>
           <BlogList blogs={blogs} />
         </div>
       ) : (
-        <LoginForm
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-          handleLogin={handleLogin}
-        />
+        <LoginForm handleLogin={handleLogin} />
       )}
     </div>
   );
