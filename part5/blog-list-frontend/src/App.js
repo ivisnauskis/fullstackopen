@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import LoginForm from "./components/LoginForm";
 import blogService from "./services/BlogService";
 import loginService from "./services/LoginService";
@@ -6,6 +6,7 @@ import BlogList from "./components/BlogList";
 import BlogForm from "./components/BlogForm";
 import BlogService from "./services/BlogService";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 import "./index.css";
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
   const [newUrl, setNewUrl] = useState("");
   const [notification, setNotification] = useState(null);
   const [isSuccess, setIsSuccess] = useState(true);
+  const blogFormRef = useRef();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -79,6 +81,7 @@ const App = () => {
       setNewTitle("");
       setNewUrl("");
 
+      blogFormRef.current.toggleVisibility();
       createNotification(
         true,
         `${response.title} by ${response.author} has been added`
@@ -107,15 +110,17 @@ const App = () => {
             {user.name} logged in
             <button onClick={handleLogout}>Logout</button>
           </div>
-          <BlogForm
-            newAuthor={newAuthor}
-            newTitle={newTitle}
-            newUrl={newUrl}
-            setNewAuthor={setNewAuthor}
-            setNewTitle={setNewTitle}
-            setNewUrl={setNewUrl}
-            onSubmit={handleCreateBlog}
-          />
+          <Togglable buttonLabel="add blog" ref={blogFormRef}>
+            <BlogForm
+              newAuthor={newAuthor}
+              newTitle={newTitle}
+              newUrl={newUrl}
+              setNewAuthor={setNewAuthor}
+              setNewTitle={setNewTitle}
+              setNewUrl={setNewUrl}
+              onSubmit={handleCreateBlog}
+            />
+          </Togglable>
           <BlogList blogs={blogs} />
         </div>
       ) : (
