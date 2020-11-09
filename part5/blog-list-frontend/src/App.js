@@ -27,6 +27,17 @@ const App = () => {
     }
   };
 
+  const handleLike = async (id) => {
+    var blog = blogs.find((b) => b.id === id);
+    var blogToUpdate = {
+      ...blog,
+      likes: blog.likes + 1,
+    };
+
+    var updatedBlog = await blogService.update(blogToUpdate, blogToUpdate.id);
+    setBlogs(blogs.map((b) => (b.id === updatedBlog.id ? updatedBlog : b)));
+  };
+
   const handleLogout = () => {
     window.localStorage.removeItem("loggedInBlogAppUser");
     blogService.setToken("");
@@ -49,7 +60,6 @@ const App = () => {
   const loadBlogs = async () => {
     const blogs = await blogService.getAll();
     setBlogs(blogs);
-    blogs.forEach((b) => console.log(b.user.id));
   };
 
   const createBlog = async (blogToAdd) => {
@@ -88,7 +98,7 @@ const App = () => {
           <Togglable buttonLabel="add blog" ref={blogFormRef}>
             <BlogForm createBlog={createBlog} />
           </Togglable>
-          <BlogList blogs={blogs} />
+          <BlogList handleLike={handleLike} blogs={blogs} />
         </div>
       ) : (
         <LoginForm handleLogin={handleLogin} />

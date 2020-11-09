@@ -28,3 +28,14 @@ code {
 .success {
   color: green;
 }
+
+.blogComponent {
+  padding: 5px;
+  width: 30%;
+  border: solid;
+  margin: 10px;
+}
+
+.blogComponent button {
+  margin-left: 5px;
+}
