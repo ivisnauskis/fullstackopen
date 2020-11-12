@@ -1,5 +1,7 @@
 # [Full Stack Open 2020](https://fullstackopen.com/en/)
 
+### [Certification](https://studies.cs.helsinki.fi/stats/api/certificate/fullstackopen/en/8e49acee2465ae2b916270b0ef7a043a)
+
 Learn React, Redux, Node.js, MongoDB, GraphQL and TypeScript in one go! This course will introduce you to modern JavaScript-based web development. The main focus is on building single page applications with ReactJS that use REST APIs built with Node.js.
 
 ## General
@@ -19,10 +21,9 @@ Course content is the same as in the Full stack course held at the Department of
 | 2         | 20/20       |
 | 3         | 22/22       |
 | 4         | 22/22       |
-| 5         | In progress |
-| **Total** | **84/84**   |
-
-### [Certification](https://studies.cs.helsinki.fi/stats/api/certificate/fullstackopen/en/8e49acee2465ae2b916270b0ef7a043a)
+| 5         | 22/22       |
+| 6         | In progress |
+| **Total** | **106/106** |
 
 ## Course material
 
@@ -65,21 +66,22 @@ Course content is the same as in the Full stack course held at the Department of
 - Login in frontend
 - props.children and proptypes
 - Testing React apps
-- Custom hooks
+- End to end -testing with Cypress
 
 ### Part 6: State management with Redux
 
 - Flux-architecture and Redux
-- Many reducers, connect
+- Many reducers
 - Communicating with server in a redux application
+- connect
 
 ### Part 7: React router, styling app with CSS and webpack
 
 - React-router
+- Custom hooks
 - More about styles
 - Webpack
-- Class components, E2E-testing
-- Miscellaneous
+- Class components, Miscellaneous
 - Exercises: extending the bloglist
 
 ### Part 8: GraphQL
@@ -102,5 +104,4 @@ Course content is the same as in the Full stack course held at the Department of
 - Introduction to React Native
 - React Native basics
 - Communicating with server
-- Login and updating the cache
 - Testing and extending our application
