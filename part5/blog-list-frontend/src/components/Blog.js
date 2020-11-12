@@ -8,18 +8,25 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
     <div className="blogComponent">
       <div>
         {blog.title} by {blog.author}
-        <button onClick={() => setIsExpandedView(!isExpandedView)}>
+        <button
+          id="viewButton"
+          onClick={() => setIsExpandedView(!isExpandedView)}
+        >
           {isExpandedView ? "hide" : "view"}
         </button>
         {isExpandedView && (
           <div className="expandedView">
             <div>Url: {blog.url}</div>
-            <div>
-              Likes: {blog.likes}
-              <button onClick={() => handleLike(blog.id)}>like</button>
+            <div id="likes">
+              Likes: <span id="likeCount">{blog.likes}</span>
+              <button id="likeButton" onClick={() => handleLike(blog.id)}>
+                like
+              </button>
             </div>
             <div>Added by: {blog.username}</div>
-            <button onClick={() => handleDelete(blog.id)}>Delete</button>
+            <button id="deleteButton" onClick={() => handleDelete(blog.id)}>
+              Delete
+            </button>
           </div>
         )}
       </div>

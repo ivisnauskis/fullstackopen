@@ -34,6 +34,7 @@ code {
   width: 30%;
   border: solid;
   margin: 10px;
+  word-wrap: break-word;
 }
 
 .blogComponent button {

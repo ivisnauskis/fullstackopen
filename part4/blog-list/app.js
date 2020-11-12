@@ -9,6 +9,7 @@ const loginRouter = require("./controllers/login");
 const logger = require("./utils/logger");
 const mongoose = require("mongoose");
 const middleware = require("./utils/middleware");
+const testingRouter = require("./controllers/testing");
 
 mongoose
   .connect(config.MONGODB_URI, {
@@ -30,6 +31,11 @@ app.use(middleware.tokenExtractor);
 app.use("/api/blogs", blogRouter);
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
+
+if (process.env.NODE_ENV === "test") {
+  const testRouter = require("./controllers/testing");
+  app.use("/api/testing", testingRouter);
+}
 app.use(middleware.errorHandler);
 
 module.exports = app;
