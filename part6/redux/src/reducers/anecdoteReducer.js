@@ -22,9 +22,11 @@ const initialState = anecdotesAtStart.map(asObject);
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "VOTE":
-      return state.map((a) =>
+      state = state.map((a) =>
         a.id !== action.data.id ? a : { ...a, votes: a.votes + 1 }
       );
+      state.sort((a, b) => b.votes - a.votes);
+      return state;
 
     case "CREATE":
       return state.concat(action.data);
