@@ -8,6 +8,7 @@ dependencies:
   react-redux: 7.2.2_bbabd8c34ea235719dc50e75b43f85a4
   react-scripts: 3.4.1
   redux: 4.0.5
+  redux-thunk: 2.3.0
 devDependencies:
   json-server: 0.16.3
   redux-devtools-extension: 2.13.8_redux@4.0.5
@@ -9851,6 +9852,10 @@ packages:
       redux: ^3.1.0 || ^4.0.0
     resolution:
       integrity: sha512-8qlpooP2QqPtZHQZRhx3x3OP5skEV1py/zUdMY28WNAocbafxdG2tRD1MWE7sp8obGMNYuLWanhhQ7EQvT1FBg==
+  /redux-thunk/2.3.0:
+    dev: false
+    resolution:
+      integrity: sha512-km6dclyFnmcvxhAcrQV2AkZmPQjzPDjgVlQtR0EQjxZPyJ0BnMf3in1ryuR8A2qU0HldVRfxYXbFSKlI3N7Slw==
   /redux/4.0.5:
     dependencies:
       loose-envify: 1.4.0
@@ -12214,3 +12219,4 @@ specifiers:
   react-scripts: 3.4.1
   redux: ^4.0.5
   redux-devtools-extension: ^2.13.8
+  redux-thunk: ^2.3.0
