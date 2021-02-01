@@ -13,9 +13,10 @@ const AnecdoteList = () => {
   );
 
   console.log("filtered", anecdotes);
-  const vote = (id, content) => {
-    dispatch(voteFor(id));
-    dispatch(setNotification(`You voted '${content}'`));
+
+  const vote = (anecdote) => {
+    dispatch(voteFor(anecdote.id));
+    dispatch(setNotification(`You voted '${anecdote.content}'`, 5));
   };
 
   return (
@@ -25,9 +26,7 @@ const AnecdoteList = () => {
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id, anecdote.content)}>
-              vote
-            </button>
+            <button onClick={() => vote(anecdote)}>vote</button>
           </div>
         </div>
       ))}

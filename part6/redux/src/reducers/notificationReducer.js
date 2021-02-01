@@ -6,21 +6,35 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "SET_NOTIFICATION":
       return {
-        ...state,
         message: action.data.message,
       };
+
+    case "CLEAR_NOTIFICATION":
+      return initialState;
 
     default:
       return state;
   }
 };
 
-export const setNotification = (message) => {
+export const setNotification = (message, seconds) => {
+  return (dispatch) => {
+    dispatch({
+      type: "SET_NOTIFICATION",
+      data: {
+        message,
+      },
+    });
+
+    setTimeout(() => {
+      dispatch(clearNotification());
+    }, 1000 * seconds);
+  };
+};
+
+export const clearNotification = () => {
   return {
-    type: "SET_NOTIFICATION",
-    data: {
-      message,
-    },
+    type: "CLEAR_NOTIFICATION",
   };
 };
 
