@@ -22,11 +22,14 @@ const reducer = (state = [], action) => {
 };
 
 export const voteFor = (id) => {
-  return {
-    type: "VOTE",
-    data: {
-      id: id,
-    },
+  return async (dispatch) => {
+    await anecdoteService.voteFor(id);
+    dispatch({
+      type: "VOTE",
+      data: {
+        id: id,
+      },
+    });
   };
 };
 
