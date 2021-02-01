@@ -22,12 +22,12 @@
     },
     {
       "content": "sadsad",
-      "important": false,
+      "important": true,
       "id": 5
     },
     {
       "content": "",
-      "important": false,
+      "important": true,
       "id": 6
     },
     {
@@ -37,7 +37,7 @@
     },
     {
       "content": "ddddddddd",
-      "important": false,
+      "important": true,
       "id": 8
     }
   ]
