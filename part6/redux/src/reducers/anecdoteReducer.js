@@ -30,10 +30,13 @@ export const voteFor = (id) => {
   };
 };
 
-export const create = (data) => {
-  return {
-    type: "CREATE",
-    data,
+export const create = (content) => {
+  return async (dispatch) => {
+    const newAnecdote = await anecdoteService.create(content);
+    dispatch({
+      type: "CREATE",
+      data: newAnecdote,
+    });
   };
 };
 

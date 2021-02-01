@@ -8,7 +8,6 @@ const AnecdoteList = () => {
   const dispatch = useDispatch();
 
   const filter = state.filter;
-
   const anecdotes = state.anecdotes.filter((a) =>
     a.content.toUpperCase().includes(filter.toUpperCase())
   );
@@ -21,7 +20,7 @@ const AnecdoteList = () => {
 
   return (
     <div>
-      {anecdotes.map((anecdote) => (
+      {state.anecdotes.map((anecdote) => (
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>
           <div>
