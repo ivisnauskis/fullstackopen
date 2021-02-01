@@ -4,13 +4,11 @@ import NewNote from "./componenets/NewNote";
 import Notes from "./componenets/Notes";
 import VisibilityFilter from "./componenets/VisibilityFilter";
 import { initializeNotes } from "./reducers/noteReducer";
-import noteService from "./services/notes";
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("getting notes");
-    noteService.getAll().then((notes) => dispatch(initializeNotes(notes)));
+    dispatch(initializeNotes());
   }, [dispatch]);
 
   return (
