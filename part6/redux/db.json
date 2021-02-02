@@ -27,18 +27,33 @@
     },
     {
       "content": "",
-      "important": true,
+      "important": false,
       "id": 6
     },
     {
       "content": "asdsad",
-      "important": true,
+      "important": false,
       "id": 7
     },
     {
       "content": "ddddddddd",
-      "important": true,
+      "important": false,
       "id": 8
+    },
+    {
+      "content": "asdasd",
+      "important": true,
+      "id": 9
+    },
+    {
+      "content": "asdsad",
+      "important": true,
+      "id": 10
+    },
+    {
+      "content": "new note",
+      "important": true,
+      "id": 11
     }
   ]
 }
