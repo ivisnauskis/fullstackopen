@@ -1,12 +1,18 @@
 import React, { useState } from "react";
-import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
+import {
+  Link,
+  Route,
+  Switch,
+  useHistory,
+  useRouteMatch,
+} from "react-router-dom";
 
 const Menu = () => {
   const padding = {
     paddingRight: 5,
   };
   return (
-    <div>
+    <div style={{ paddingBottom: 10 }}>
       <Link to="/anecdotes" style={padding}>
         anecdotes
       </Link>
@@ -130,6 +136,7 @@ const Anecdote = ({ anecdote }) => {
 };
 
 const App = () => {
+  const history = useHistory();
   const match = useRouteMatch("/anecdotes/:id");
   const [anecdotes, setAnecdotes] = useState([
     {
@@ -153,6 +160,11 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0);
     setAnecdotes(anecdotes.concat(anecdote));
+    setNotification(anecdote.content + " created");
+    setTimeout(() => {
+      setNotification("");
+    }, 10000);
+    history.push("anecdotes");
   };
 
   const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
@@ -170,12 +182,11 @@ const App = () => {
 
   const anecdote = match ? anecdoteById(match.params.id) : null;
 
-  console.log(anecdote);
-
   return (
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
+      {notification && <div>{notification}</div>}
       <Switch>
         <Route path="/anecdotes/:id">
           <Anecdote anecdote={anecdote} />
