@@ -22,8 +22,8 @@ Course content is the same as in the Full stack course held at the Department of
 | 3         | 22/22       |
 | 4         | 22/22       |
 | 5         | 22/22       |
-| 6         | In progress |
-| **Total** | **106/106** |
+| 6         | 21/21       |
+| **Total** | **127/127** |
 
 ## Course material
 
