@@ -24,16 +24,14 @@ const useCountry = (name) => {
         const response = await axios.get(
           `https://restcountries.eu/rest/v2/name/${name}?fullText=true`
         );
-
         setCountry({ data: response.data[0], found: true });
       } catch (err) {
         setCountry({ found: false });
       }
     };
 
-    if (name) {
-      fetchCountry();
-    }
+    if (name) fetchCountry();
+    else setCountry(null);
   }, [name]);
 
   return country;
