@@ -8,13 +8,16 @@ import BlogService from "./services/BlogService";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import "./index.css";
+import { setNotification } from "./store/reducers/notificationReducer";
+import { useDispatch } from "react-redux";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState(null);
-  const [isSuccess, setIsSuccess] = useState(true);
+  //const [notification, setNotification] = useState(null);
+  //const [isSuccess, setIsSuccess] = useState(true);
   const blogFormRef = useRef();
+  const dispatch = useDispatch();
 
   const handleLogin = async (username, password) => {
     try {
@@ -97,17 +100,18 @@ const App = () => {
   };
 
   const createNotification = (isSuccess, message) => {
-    setNotification(message);
-    setIsSuccess(isSuccess);
+    dispatch(setNotification({ message, success: isSuccess }));
+    // setNotification(message);
+    // setIsSuccess(isSuccess);
 
-    setTimeout(() => {
-      setNotification(null);
-    }, 5000);
+    // setTimeout(() => {
+    //   setNotification(null);
+    // }, 5000);
   };
 
   return (
     <div>
-      <Notification message={notification} isSuccess={isSuccess} />
+      <Notification />
       {user ? (
         <div>
           <h1>Blogs</h1>
