@@ -9,7 +9,7 @@ import Togglable from "./components/Togglable";
 import "./index.css";
 import { setNotification } from "./store/reducers/notificationReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { initBlogs, createBlog } from "./store/reducers/blogsReducer";
+import { initBlogs, createBlog, remove } from "./store/reducers/blogsReducer";
 
 const App = () => {
   const blogsState = useSelector((state) => state.blogs);
@@ -48,18 +48,13 @@ const App = () => {
   };
 
   const handleDelete = async (id) => {
-    var blog = blogs.find((b) => b.id === id);
+    var blog = blogsState.find((b) => b.id === id);
     const toDelete = window.confirm(
       `Are you sure you want to delete blog "${blog.title}" by ${blog.author}`
     );
+
     if (toDelete) {
-      try {
-        await blogService.remove(id);
-        setBlogs(blogs.filter((b) => b.id !== id));
-        createNotification(true, `"${blog.title}" has been deleted`);
-      } catch (error) {
-        createNotification(false, error.response.data.error);
-      }
+      dispatch(remove(blog));
     }
   };
 
