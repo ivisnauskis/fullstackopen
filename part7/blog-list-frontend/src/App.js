@@ -25,8 +25,11 @@ const App = () => {
       setUser(user);
       blogService.setToken(user.token);
       window.localStorage.setItem("loggedInBlogAppUser", JSON.stringify(user));
-    } catch (exception) {
-      createNotification(false, "Wrong credentials");
+    } catch (err) {
+      console.log(err.response);
+      if (err.response.status === 500)
+        createNotification(false, "Unexpected error, try again later.");
+      else createNotification(false, err.response.data.error);
     }
   };
 
