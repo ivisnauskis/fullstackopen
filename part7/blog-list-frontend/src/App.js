@@ -4,14 +4,15 @@ import blogService from "./services/BlogService";
 import loginService from "./services/LoginService";
 import BlogList from "./components/BlogList";
 import BlogForm from "./components/BlogForm";
-import BlogService from "./services/BlogService";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import "./index.css";
 import { setNotification } from "./store/reducers/notificationReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { initBlogs, createBlog } from "./store/reducers/blogsReducer";
 
 const App = () => {
+  const blogsState = useSelector((state) => state.blogs);
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const blogFormRef = useRef();
@@ -69,7 +70,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    loadBlogs();
+    dispatch(initBlogs());
   }, []);
 
   useEffect(() => {
@@ -81,23 +82,9 @@ const App = () => {
     }
   }, []);
 
-  const loadBlogs = async () => {
-    const blogs = await blogService.getAll();
-    setBlogs(blogs.sort((a, b) => b.likes - a.likes));
-  };
-
-  const createBlog = async (blogToAdd) => {
-    try {
-      const response = await BlogService.create(blogToAdd);
-      setBlogs(blogs.concat(response));
-      blogFormRef.current.toggleVisibility();
-      createNotification(
-        true,
-        `${response.title} by ${response.author} has been added`
-      );
-    } catch (error) {
-      createNotification(false, error.response.data.error);
-    }
+  const addBlog = async (blogToAdd) => {
+    dispatch(createBlog(blogToAdd));
+    blogFormRef.current.toggleVisibility();
   };
 
   const createNotification = (isSuccess, message) => {
@@ -117,12 +104,12 @@ const App = () => {
             </button>
           </div>
           <Togglable buttonLabel="add blog" ref={blogFormRef}>
-            <BlogForm createBlog={createBlog} />
+            <BlogForm createBlog={addBlog} />
           </Togglable>
           <BlogList
             handleLike={handleLike}
             handleDelete={handleDelete}
-            blogs={blogs}
+            blogs={blogsState}
           />
         </div>
       ) : (
