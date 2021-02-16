@@ -14,8 +14,6 @@ import { useDispatch } from "react-redux";
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  //const [notification, setNotification] = useState(null);
-  //const [isSuccess, setIsSuccess] = useState(true);
   const blogFormRef = useRef();
   const dispatch = useDispatch();
 
@@ -104,12 +102,6 @@ const App = () => {
 
   const createNotification = (isSuccess, message) => {
     dispatch(setNotification({ message, success: isSuccess }));
-    // setNotification(message);
-    // setIsSuccess(isSuccess);
-
-    // setTimeout(() => {
-    //   setNotification(null);
-    // }, 5000);
   };
 
   return (
