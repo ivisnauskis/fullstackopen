@@ -9,7 +9,12 @@ import Togglable from "./components/Togglable";
 import "./index.css";
 import { setNotification } from "./store/reducers/notificationReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { initBlogs, createBlog, remove } from "./store/reducers/blogsReducer";
+import {
+  initBlogs,
+  createBlog,
+  removeBlog,
+  updateBlog,
+} from "./store/reducers/blogsReducer";
 
 const App = () => {
   const blogsState = useSelector((state) => state.blogs);
@@ -33,18 +38,19 @@ const App = () => {
   };
 
   const handleLike = async (id) => {
-    var blog = blogs.find((b) => b.id === id);
+    var blog = blogsState.find((b) => b.id === id);
     var blogToUpdate = {
       ...blog,
       likes: blog.likes + 1,
     };
 
-    var updatedBlog = await blogService.update(blogToUpdate, blogToUpdate.id);
-    setBlogs(
-      blogs
-        .map((b) => (b.id === updatedBlog.id ? updatedBlog : b))
-        .sort((a, b) => b.likes - a.likes)
-    );
+    dispatch(updateBlog(blogToUpdate, id));
+
+    // setBlogs(
+    //   blogs
+    //     .map((b) => (b.id === updatedBlog.id ? updatedBlog : b))
+    //     .sort((a, b) => b.likes - a.likes)
+    // );
   };
 
   const handleDelete = async (id) => {
@@ -54,7 +60,7 @@ const App = () => {
     );
 
     if (toDelete) {
-      dispatch(remove(blog));
+      dispatch(removeBlog(blog));
     }
   };
 

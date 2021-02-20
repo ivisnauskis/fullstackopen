@@ -13,6 +13,11 @@ const reducer = (state = initialState, action) => {
     case "INIT_BLOGS":
       return action.data;
 
+    case "UPDATE_BLOG":
+      return state
+        .map((b) => (b.id === action.data.id ? action.data : b))
+        .sort((a, b) => b.likes - a.likes);
+
     default:
       return state;
   }
@@ -57,7 +62,7 @@ export const createBlog = (blog) => {
   };
 };
 
-export const remove = (blog) => {
+export const removeBlog = (blog) => {
   return async (dispatch) => {
     try {
       await blogService.remove(blog.id);
@@ -71,6 +76,41 @@ export const remove = (blog) => {
         type: "SET_NOTIFICATION",
         data: {
           message: `"${blog.title}" has been deleted`,
+          success: true,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: "SET_NOTIFICATION",
+        data: {
+          message: error.response.data.error,
+          success: false,
+        },
+      });
+    } finally {
+      setTimeout(() => {
+        dispatch({
+          type: "CLEAR_NOTIFICATION",
+        });
+      }, 5000);
+    }
+  };
+};
+
+export const updateBlog = (blog, id) => {
+  return async (dispatch) => {
+    try {
+      const updatedBlog = await blogService.update(blog, id);
+
+      dispatch({
+        type: "UPDATE_BLOG",
+        data: updatedBlog,
+      });
+
+      dispatch({
+        type: "SET_NOTIFICATION",
+        data: {
+          message: `You liked "${updatedBlog.title} by ${updatedBlog.author}"`,
           success: true,
         },
       });
